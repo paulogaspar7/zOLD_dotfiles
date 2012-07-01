@@ -1,0 +1,21 @@
+# Use shell-style glob syntax
+syntax: glob
+
+# Compiled Python files
+## *.pyc
+
+
+## OSX specific stuff to ignore everywhere:
+
+# Folder view configuration files
+.DS_Store
+.DS_Store?
+
+# Thumbnail cache files
+._*
+ehthumbs.db
+Thumbs.db
+
+# Files that might appear on external disks
+.Spotlight-V100
+.Trashes
