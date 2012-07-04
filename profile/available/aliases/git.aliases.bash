@@ -45,7 +45,7 @@ esac
 # Autocomplete for 'g' as well
 complete -o default -o nospace -F _git g
 
-alias g.trackallb='g.trackallbranches'
+# alias g.trackallb='g.trackallbranches'
 
 alias g0.trackallb='g0.runall g.trackallbranches'
 alias g1.trackallb='g1.runall g.trackallbranches'
@@ -71,11 +71,11 @@ alias g0.copmaster='g0.runall g.copmaster'
 alias g1.copmaster='g1.runall g.copmaster'
 alias g2.copmaster='g2.runall g.copmaster'
 
-alias g0.fetchall='g0.runall git fetch --all'
-alias g1.fetchall='g1.runall git fetch --all'
-alias g2.fetchall='g2.runall git fetch --all'
+alias g0.fetchall='g0.runall git fetch --all --tags'
+alias g1.fetchall='g1.runall git fetch --all --tags'
+alias g2.fetchall='g2.runall git fetch --all --tags'
 
-alias g0.fetch='g0.runall git fetch'
-alias g1.fetch='g1.runall git fetch'
-alias g2.fetch='g2.runall git fetch'
+alias g0.fetch='g0.runall git fetch --tags'
+alias g1.fetch='g1.runall git fetch --tags'
+alias g2.fetch='g2.runall git fetch --tags'
 

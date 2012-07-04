@@ -26,6 +26,7 @@
 	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
 	# Undo a `git push`
 	undopush = push -f origin HEAD^:master
+	f = fetch --tags
 
 [apply]
 	# Detect whitespace errors when applying a patch

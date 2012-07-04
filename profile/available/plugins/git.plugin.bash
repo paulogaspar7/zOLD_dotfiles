@@ -38,131 +38,129 @@ function g.export(){
 
 
 function g.remote.addmine {
-  about 'adds remote $GIT_HOSTING:$1 to current repo'
-  group 'git'
+	about 'adds remote $GIT_HOSTING:$1 to current repo'
+	group 'git'
 
-  echo "Running: git remote add origin ${GIT_HOSTING}:$1.git"
-  git remote add origin $GIT_HOSTING:$1.git
+	echo "Running: git remote add origin ${GIT_HOSTING}:$1.git"
+	git remote add origin $GIT_HOSTING:$1.git
 }
 
 function g.push.1st {
-  about 'push into origin refs/heads/master'
-  group 'git'
+	about 'push into origin refs/heads/master'
+	group 'git'
 
-  echo "Running: git push origin master:refs/heads/master"
-  git push origin master:refs/heads/master
+	echo "Running: git push origin master:refs/heads/master"
+	git push origin master:refs/heads/master
 }
 
 
 function g.rm.missing() {
-  about "git rm's missing files"
-  group 'git'
+	about "git rm's missing files"
+	group 'git'
 
-  git ls-files -d -z | xargs -0 git update-index --remove
+	git ls-files -d -z | xargs -0 git update-index --remove
 }
 
 
 function g.add.allchanges() {
-  about "git adds all changes and rm's missing files"
-  group 'git'
+	about "git adds all changes and rm's missing files"
+	group 'git'
 
-  git add -A
+	git add -A
 }
 
 
 
 # Adds files to git's exclude file (same as .gitignore)
 function g.ignore.localadd() {
-  about 'adds file or path to git exclude file'
-  param '1: file or path fragment to ignore'
-  group 'git'
-  echo "$1" >> .git/info/exclude
+	about 'adds file or path to git exclude file'
+	param '1: file or path fragment to ignore'
+	group 'git'
+	echo "$1" >> .git/info/exclude
 }
 
 # get a quick overview for your git repo
 function g.info() {
-    about 'overview for your git repo'
-    group 'git'
+	about 'overview for your git repo'
+	group 'git'
 
-    if [ -n "$(git symbolic-ref HEAD 2> /dev/null)" ]; then
-        # print informations
-        echo "git repo overview"
-        echo "-----------------"
-        echo
+	if [ -n "$(git symbolic-ref HEAD 2> /dev/null)" ]; then
+		# print informations
+		echo "git repo overview"
+		echo "-----------------"
+		echo
 
-        # print all remotes and thier details
-        for remote in $(git remote show); do
-            echo $remote:
-            git remote show $remote
-            echo
-        done
+		# print all remotes and thier details
+		for remote in $(git remote show); do
+			echo $remote:
+			git remote show $remote
+			echo
+		done
 
-        # print status of working repo
-        echo "status:"
-        if [ -n "$(git status -s 2> /dev/null)" ]; then
-            git status -s
-        else
-            echo "working directory is clean"
-        fi
+		# print status of working repo
+		echo "status:"
+		if [ -n "$(git status -s 2> /dev/null)" ]; then
+			git status -s
+		else
+			echo "working directory is clean"
+		fi
 
-        # print at least 5 last log entries
-        echo
-        echo "log:"
-        git log -5 --oneline
-        echo
-
-    else
-        echo "you're currently not in a git repository"
-
-    fi
+		# print at least 5 last log entries
+		echo
+		echo "log:"
+		git log -5 --oneline
+		echo
+	else
+		echo "you're currently not in a git repository"
+	fi
 }
 
 function g.stats {
-    about 'display stats per author'
-    group 'git'
+	about 'display stats per author'
+	group 'git'
 
 # awesome work from https://github.com/esc/git-stats
 # including some modifications
 
-if [ -n "$(git symbolic-ref HEAD 2> /dev/null)" ]; then
-    echo "Number of commits per author:"
-    git --no-pager shortlog -sn --all
-    AUTHORS=$( git shortlog -sn --all | cut -f2 | cut -f1 -d' ')
-    LOGOPTS=""
-    if [ "$1" == '-w' ]; then
-        LOGOPTS="$LOGOPTS -w"
-        shift
-    fi
-    if [ "$1" == '-M' ]; then
-        LOGOPTS="$LOGOPTS -M"
-        shift
-    fi
-    if [ "$1" == '-C' ]; then
-        LOGOPTS="$LOGOPTS -C --find-copies-harder"
-        shift
-    fi
-    for a in $AUTHORS
-    do
-        echo '-------------------'
-        echo "Statistics for: $a"
-        echo -n "Number of files changed: "
-        git log $LOGOPTS --all --numstat --format="%n" --author=$a | cut -f3 | sort -iu | wc -l
-        echo -n "Number of lines added: "
-        git log $LOGOPTS --all --numstat --format="%n" --author=$a | cut -f1 | awk '{s+=$1} END {print s}'
-        echo -n "Number of lines deleted: "
-        git log $LOGOPTS --all --numstat --format="%n" --author=$a | cut -f2 | awk '{s+=$1} END {print s}'
-        echo -n "Number of merges: "
-        git log $LOGOPTS --all --merges --author=$a | grep -c '^commit'
-    done
-else
-    echo "you're currently not in a git repository"
-fi
+	if [ -n "$(git symbolic-ref HEAD 2> /dev/null)" ]; then
+		echo "Number of commits per author:"
+		git --no-pager shortlog -sn --all
+		AUTHORS=$( git shortlog -sn --all | cut -f2 | cut -f1 -d' ')
+		LOGOPTS=""
+		if [ "$1" == '-w' ]; then
+			LOGOPTS="$LOGOPTS -w"
+			shift
+		fi
+		if [ "$1" == '-M' ]; then
+			LOGOPTS="$LOGOPTS -M"
+			shift
+		fi
+		if [ "$1" == '-C' ]; then
+			LOGOPTS="$LOGOPTS -C --find-copies-harder"
+			shift
+		fi
+		for a in $AUTHORS
+		do
+			echo '-------------------'
+			echo "Statistics for: $a"
+			echo -n "Number of files changed: "
+			git log $LOGOPTS --all --numstat --format="%n" --author=$a | cut -f3 | sort -iu | wc -l
+			echo -n "Number of lines added: "
+			git log $LOGOPTS --all --numstat --format="%n" --author=$a | cut -f1 | awk '{s+=$1} END {print s}'
+			echo -n "Number of lines deleted: "
+			git log $LOGOPTS --all --numstat --format="%n" --author=$a | cut -f2 | awk '{s+=$1} END {print s}'
+			echo -n "Number of merges: "
+			git log $LOGOPTS --all --merges --author=$a | grep -c '^commit'
+		done
+	else
+		echo "you're currently not in a git repository"
+	fi
 }
 
 
 function g.trackallbranches() {
 	about 'tracks all branches on remote $1'
-    param '1: remote name'
+	param '1: remote name'
 	example '$ g.trackallbranches'
 	example '$ g.trackallbranches origin'
 	group 'git'
@@ -176,13 +174,13 @@ function g.trackallbranches() {
 
 	echo "track and pull all branches @ $CURR"
 
-	for branch in `git branch -a $GREMOTE | grep remotes | grep -v HEAD | grep -v master`; do
-	    echo "git branch $GREMOTE --track ${branch##*/} $branch"
-	    git branch $GREMOTE --track ${branch##*/} $branch
+	for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master`; do
+	    echo "git branch --track ${branch##*/} $branch"
+	    git branch --track ${branch##*/} $branch
 	done
 
-	echo "git fetch $GREMOTE  # --all"
-	git fetch $GREMOTE  # --all
+	echo "git fetch --tags $GREMOTE # --all"
+	git fetch --tags $GREMOTE  # --all
 
 	echo "git pull $GREMOTE  # --all"
 	git pull $GREMOTE  # --all
@@ -192,8 +190,8 @@ function g.trackallbranches() {
 
 function g.cop() {
 	about 'runs commands git co $1 ; git pull $1 $2'
-    param '1: remote name'
-    param '2: branch name'
+	param '1: remote name'
+	param '2: branch name'
 	example '$ g.cop'
 	example '$ g.cop origin mine'
 	group 'git'
@@ -230,8 +228,8 @@ function g.run() {
 
 function g1.runall() {
 	about 'runs the given command on all git repositories on 1st level subdirectories of current directory'
-    param '@: command to execute'
-    example '$ g1.runall git status'
+	param '@: command to execute'
+	example '$ g1.runall git status'
 	group 'git'
 
 	if [ $# -eq 0 ]; then
@@ -258,8 +256,8 @@ function g1.runall() {
 
 function g2.runall() {
 	about 'runs the given command on all git repositories down to the 2nd level subdirectories of current directory'
-    param '@: command to execute'
-    example '$ g2.runall git status'
+	param '@: command to execute'
+	example '$ g2.runall git status'
 	group 'git'
 
 	if [ $# -eq 0 ]; then
@@ -318,6 +316,5 @@ function g0.runall() {
 	done
 	cd $TOP_DIR
 }
-
 
 
