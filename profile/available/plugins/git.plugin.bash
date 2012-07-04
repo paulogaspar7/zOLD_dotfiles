@@ -90,12 +90,20 @@ function g.info() {
 		echo "-----------------"
 		echo
 
-		# print all remotes and thier details
-		for remote in $(git remote show); do
-			echo $remote:
-			git remote show $remote
+		local GREMOTE
+		if [ $# -eq 0 ]; then
+		# print all remotes and their details
+			for GREMOTE in $(git remote show); do
+				echo $GREMOTE:
+				git remote show $GREMOTE
+				echo
+			done
+		else
+			GREMOTE=$1
+			echo $GREMOTE:
+			git remote show $GREMOTE
 			echo
-		done
+		fi
 
 		# print status of working repo
 		echo "status:"
