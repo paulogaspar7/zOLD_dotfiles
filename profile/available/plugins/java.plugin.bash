@@ -1,6 +1,16 @@
 cite about-plugin
 about-plugin 'Java and JAR helper functions'
 
+
+function jadall {
+	about 'decompiles all subdirectories of current directory using JAD'
+	group 'java'
+
+	jad -o -r -sjava -d_jadout './**/*.class'
+	$EDITOR _jadout
+}
+
+
 function jar_manifest {
   about "extracts the specified JAR file's MANIFEST file and prints it to stdout"
   group 'java'

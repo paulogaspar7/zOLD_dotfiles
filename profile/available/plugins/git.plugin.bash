@@ -12,7 +12,7 @@ fi
 
 
 ## TODO: test and check the "AWK" thing
-function ghl() {
+function gh.log() {
 	about 'git log with per-commit cmd-clickable GitHub URLs - iTerm'
 	group 'git'
 
@@ -29,7 +29,7 @@ AWK
 
 
 ## TODO: check this one
-function gitexport(){
+function g.export(){
 	about 'take this repo and copy it to somewhere else minus the .git stuff'
 	group 'git'
 	
@@ -37,7 +37,7 @@ function gitexport(){
 }
 
 
-function git_remote {
+function g.remote.addmine {
   about 'adds remote $GIT_HOSTING:$1 to current repo'
   group 'git'
 
@@ -45,7 +45,7 @@ function git_remote {
   git remote add origin $GIT_HOSTING:$1.git
 }
 
-function git_first_push {
+function g.push.1st {
   about 'push into origin refs/heads/master'
   group 'git'
 
@@ -54,7 +54,7 @@ function git_first_push {
 }
 
 
-function git_remove_missing_files() {
+function g.rm.missing() {
   about "git rm's missing files"
   group 'git'
 
@@ -62,7 +62,7 @@ function git_remove_missing_files() {
 }
 
 
-function git_add_allchanges() {
+function g.add.allchanges() {
   about "git adds all changes and rm's missing files"
   group 'git'
 
@@ -72,7 +72,7 @@ function git_add_allchanges() {
 
 
 # Adds files to git's exclude file (same as .gitignore)
-function local-ignore() {
+function g.ignore.localadd() {
   about 'adds file or path to git exclude file'
   param '1: file or path fragment to ignore'
   group 'git'
@@ -80,7 +80,7 @@ function local-ignore() {
 }
 
 # get a quick overview for your git repo
-function git_info() {
+function g.info() {
     about 'overview for your git repo'
     group 'git'
 
@@ -117,7 +117,7 @@ function git_info() {
     fi
 }
 
-function git_stats {
+function g.stats {
     about 'display stats per author'
     group 'git'
 
@@ -158,4 +158,166 @@ else
     echo "you're currently not in a git repository"
 fi
 }
+
+
+function g.trackallbranches() {
+	about 'tracks all branches on remote $1'
+    param '1: remote name'
+	example '$ g.trackallbranches'
+	example '$ g.trackallbranches origin'
+	group 'git'
+
+	local GREMOTE
+	if [ $# -eq 0 ]; then
+		GREMOTE=origin
+	else
+		GREMOTE =$1
+	fi
+
+	echo "track and pull all branches @ $CURR"
+
+	for branch in `git branch -a $GREMOTE | grep remotes | grep -v HEAD | grep -v master`; do
+	    echo "git branch $GREMOTE --track ${branch##*/} $branch"
+	    git branch $GREMOTE --track ${branch##*/} $branch
+	done
+
+	echo "git fetch $GREMOTE  # --all"
+	git fetch $GREMOTE  # --all
+
+	echo "git pull $GREMOTE  # --all"
+	git pull $GREMOTE  # --all
+	echo ""
+}
+
+
+function g.cop() {
+	about 'runs commands git co $1 ; git pull $1 $2'
+    param '1: remote name'
+    param '2: branch name'
+	example '$ g.cop'
+	example '$ g.cop origin mine'
+	group 'git'
+
+	local CURR=`pwd`
+	echo "git co $2 + git pull $1 $2 @ $CURR"
+	git checkout $2
+	git pull $1 $2
+}
+
+
+function g.copmaster() {
+	about 'runs commands git co master ; git pull origin master'
+	example '$ g.copmaster'
+	group 'git'
+
+	g.cop origin master
+}
+
+
+# Consider this a private/helper function
+function g.run() {
+	local D1=`pwd`
+	local CMD2CALL="$@"
+
+	echo
+	echo "=========="
+	echo "@ $D1: $CMD2CALL"
+	cd $D1
+	$CMD2CALL
+	echo
+}
+
+
+function g1.runall() {
+	about 'runs the given command on all git repositories on 1st level subdirectories of current directory'
+    param '@: command to execute'
+    example '$ g1.runall git status'
+	group 'git'
+
+	if [ $# -eq 0 ]; then
+		echo "No command was given to execute!"
+		exit 1
+	fi
+
+	local CMD2CALL="$@"
+	#	echo "args = $CMD2CALL"
+	
+	local TOP_DIR=`pwd` # current working directory
+	local G_DIRS1="$( find $TOP_DIR -maxdepth 1 -mindepth 1 -type d )"
+	local D1
+	for D1 in  $G_DIRS1 ; do
+		if [ -e "$D1/.git" ]
+		then
+			cd $D1
+			g.run "$CMD2CALL"
+		fi
+	done
+	cd $TOP_DIR
+}
+
+
+function g2.runall() {
+	about 'runs the given command on all git repositories down to the 2nd level subdirectories of current directory'
+    param '@: command to execute'
+    example '$ g2.runall git status'
+	group 'git'
+
+	if [ $# -eq 0 ]; then
+		echo "No command was given to execute!"
+		exit 1
+	fi
+
+	local CMD2CALL="$@"
+#	echo "args = $CMD2CALL"
+	
+	local TOP_DIR=`pwd` # current working directory
+	local G_DIRS1="$( find $TOP_DIR -maxdepth 1 -mindepth 1 -type d )"
+	local D1
+	for D1 in  $G_DIRS1 ; do
+		if [ -e "$D1/.git" ]
+		then
+			cd $D1
+			g.run "$CMD2CALL"
+		else
+			g1.runall "$CMD2CALL"
+		fi
+	done
+	cd $TOP_DIR
+}
+
+
+function g0.runall() {
+	about 'runs the given command on all git repositories on any subdirectories of current directory'
+	param '@: command to execute'
+	example '$ g2.runall git status'
+	group 'git'
+
+	if [ $# -eq 0 ]; then
+		echo "No command was given to execute!"
+		exit 1
+	fi
+
+#	echo
+#	echo "Processing subfolders from \"$TOP_DIR\"..."
+
+	local CMD2CALL="$@"
+#	echo "args = $CMD2CALL"
+	
+	local TOP_DIR=`pwd` # current working directory
+	local G_DIRS1="$( find $TOP_DIR -maxdepth 1 -mindepth 1 -type d )"
+	local D1
+	for D1 in  $G_DIRS1 ; do
+		cd $D1
+		if [ -e ".git" ]
+		then
+			cd $D1
+			g.run "$CMD2CALL"
+		else
+			g0.runall "$CMD2CALL"
+		fi
+	done
+	cd $TOP_DIR
+}
+
+
 
