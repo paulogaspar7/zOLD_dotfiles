@@ -62,6 +62,7 @@ alias spoton="sudo mdutil -a -i on"
 
 ##### Sound...
 alias stfu="osascript -e 'set volume output muted true'"
+alias sound0="osascript -e 'set volume output muted true'"
 alias soundoff="osascript -e 'set volume output muted true'"
 alias pumpitup="osascript -e 'set volume 7'"
 alias soundmax="osascript -e 'set volume 7'"
