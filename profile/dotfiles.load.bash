@@ -188,7 +188,7 @@ _try2source_dir "$DOTFILES_LOCAL_DIR/profile/lib"
 
 
 # Load all enabled extensions
-dotf-load-all
+df.load.all
 
 
 if [[ $PROMPT ]]; then

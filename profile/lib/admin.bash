@@ -13,7 +13,7 @@ fi
 
 if [ -z "$DOTFILES_ENABLED_PROFILE_DIR" ];
 then
-	export DOTFILES_ENABLED_PROFILE_DIR="$DOTFILES_DIR/enabled/profile"
+	export DOTFILES_ENABLED_PROFILE_DIR="$DOTFILES_DIR/_ENABLED/profile"
 fi
 
 
@@ -61,21 +61,22 @@ function _source_dir() {
 }
 
 
-dotf-load() {
+df.load() {
 	about '(re)loads all enabled extensions of a given type'
 	param '1: extension type - one of: export or exports, alias or aliases, completion, plugin or plugins'
-	example '$ dotf-load plugins'
-	group 'dotadmin'
+	example '$ df.load plugins'
+	group 'dotfiles'
 
     if [ -z "$1" ]; then
-		reference dotf-load
+		reference df.load
 		return
     fi
 
 	local exttype_arg=$1
 	local exttype
 
-	case $exttype_arg in
+	local exttype_arg_lo=`echo "$exttype_arg" | tr "[A-Z]" "[a-z]"`
+	case $exttype_arg_lo in
 		export | exports)
 			exttype="exports"
 			;;
@@ -101,29 +102,29 @@ dotf-load() {
 }
 
 
-dotf-load-all() {
+df.load.all() {
 	about '(re)loads all enabled extensions of all types'
-	example '$ dotf-load-all'
-	group 'dotadmin'
+	example '$ df.load.all'
+	group 'dotfiles'
 
 	local type
 	for type in "exports" "aliases" "plugins" "completion"
 	do
-		dotf-load $type
+		df.load $type
 	done
 }
 
 
-dotf-enable()
+df.enable()
 {
 	about 'enables an extension'
 	param '1: extension type - one of: export or exports, alias or aliases, completion, plugin or plugins'
 	param '2: extension name or "all"'
-	example '$ dotf-enable plugin rvm'
-	group 'dotadmin'
+	example '$ df.enable plugin rvm'
+	group 'dotfiles'
 
     if [ -z "$1" ] || [ -z "$2" ]; then
-		reference dotf-enable
+		reference df.enable
 		return
     fi
 
@@ -132,7 +133,8 @@ dotf-enable()
 	local exttype
 	local exttype_single
 
-	case $exttype_arg in
+	local exttype_arg_lo=`echo "$exttype_arg" | tr "[A-Z]" "[a-z]"`
+	case $exttype_arg_lo in
 		export | exports)
 			exttype="exports"
 			exttype_single="export"
@@ -194,31 +196,31 @@ dotf-enable()
 }
 
 
-dotf-enable-all()
+df.enable.all()
 {
 	about 'enables all extensions of all types'
-	example '$ dotf-enable-all'
-	group 'dotadmin'
+	example '$ df.enable.all'
+	group 'dotfiles'
 
 	local type
 	for type in "exports" "aliases" "plugins" "completion"
 	do
-		dotf-enable $type all
+		df.enable $type all
 	done
 }
 
 
 
-dotf-disable()
+df.disable()
 {
 	about 'disables an extension'
 	param '1: extension type - one of: export or exports, alias or aliases, completion, plugin or plugins'
 	param '2: extension name name'
-	example '$ dotf-disable plugin rvm'
-	group 'dotadmin'
+	example '$ df.disable plugin rvm'
+	group 'dotfiles'
 
     if [ -z "$1" ] || [ -z "$2" ]; then
-		reference dotf-disable
+		reference df.disable
 		return
 	fi
 
@@ -227,7 +229,8 @@ dotf-disable()
 	local exttype
 	local exttype_single
 
-	case $exttype_arg in
+	local exttype_arg_lo=`echo "$exttype_arg" | tr "[A-Z]" "[a-z]"`
+	case $exttype_arg_lo in
 		export | exports)
 			exttype="exports"
 			exttype_single="export"
@@ -285,30 +288,32 @@ dotf-disable()
 }
 
 
-dotf-disable-all()
+df.disable.all()
 {
 	about 'disables all extensions of all types'
-	example '$ dotf-disable-all'
-	group 'dotadmin'
+	example '$ df.disable.all'
+	group 'dotfiles'
 
 	local type
 	for type in "exports" "aliases" "plugins" "completion"
 	do
-		dotf-disable $type all
+		df.disable $type all
 	done
 }
 
 
 
-dotf-list-exts1()
+df.listexts.1()
 {
     about 'summarizes the available extensions of a given type and their status'
 	param '1: extension type - one of: export or exports, alias or aliases, completion, plugin or plugins'
-	example '$ dotf-list-exts1 plugins'
-	group 'dotadmin'
+	param '2: mode - can be "cat" to display details'
+	param '3: filter'
+	example '$ df.listexts.1 plugins'
+	group 'dotfiles'
 
     if [ -z "$1" ]; then
-		reference dotf-list-exts1
+		reference df.listexts.1
 		return
 	fi
 
@@ -329,7 +334,8 @@ dotf-list-exts1()
 	local exttype_single
 	local exttype_plural
 
-	case $exttype_arg in
+	local exttype_arg_lo=`echo "$exttype_arg" | tr "[A-Z]" "[a-z]"`
+	case $exttype_arg_lo in
 		export | exports)
 			exttype="exports"
 			exttype_single="export"
@@ -391,46 +397,57 @@ dotf-list-exts1()
 				printf "    %-20s%-10s%s\n" "$(basename $f | cut -d'.' -f1)" "  [$enabled]" "$(cat $f | metafor about-${exttype_single})"
 
 			    if [ "$is2cat_file" = "S" ]; then
-					echo "========== BEGIN definitions of alias ${bf}: =========="
-					cat "$f"
-					echo "=========== END definitions of alias ${bf}. ==========="
-					echo
+					if [ "$exttype" = "aliases" ]; then
+						echo "========== BEGIN definitions of alias ${bf}: =========="
+						cat "$f"
+						echo "=========== END definitions of alias ${bf}. ==========="
+						echo
+					fi
+					if [ "$exttype" = "plugins" ]; then
+						local FUNC_GROUP=(${bf//./ })
+						echo "========== BEGIN definitions of alias ${bf} - functions group $FUNC_GROUP: =========="
+						df.help.funcs $FUNC_GROUP
+						echo "=========== END definitions of alias ${bf} - functions group $FUNC_GROUP. ==========="
+						echo
+					fi
 				fi
 			done
 		fi
 	done
 	echo ""
 	echo "to enable a $exttype_single, do:"
-	echo "\$ dotf-enable  $exttype_single <$exttype_single name> -or- $ dotf-enable $exttype_single all"
+	echo "\$ df.enable  $exttype_single <$exttype_single name> -or- $ df.enable $exttype_single all"
 	echo ""
 	echo "to disable a $exttype_single, do:"
-	echo "\$ dotf-disable $exttype_single <$exttype_single name> -or- $ dotf-disable $exttype_single all"
+	echo "\$ df.disable $exttype_single <$exttype_single name> -or- $ df.disable $exttype_single all"
 	echo ""
 }
 
 
-dotf-list-exts-all()
+df.listexts.all()
 {
     about 'summarizes the available extensions of all types and their status'
-	example '$ dotf-list-exts-all'
-	group 'dotadmin'
+	param '1: mode - can be "cat" to display details'
+	param '2: filter'
+	example '$ df.listexts.all'
+	group 'dotfiles'
 
 	local type
 	for type in "exports" "aliases" "plugins" "completion"
 	do
-		dotf-list-exts1 $type
+		df.listexts.1 $type $1 $2
 	done
 }
 
 
-dotf-setup() {
+df.setup() {
 	about 'interactivly sets up all available extensions of a given type'
 	param '1: extension type - one of: export or exports, alias or aliases, completion, plugin or plugins'
-	example '$ dotf-setup plugin rvm'
-	group 'dotadmin'
+	example '$ df.setup plugin rvm'
+	group 'dotfiles'
 
     if [ -z "$1" ]; then
-		reference dotf-setup
+		reference df.setup
 		return
 	fi
 
@@ -439,7 +456,8 @@ dotf-setup() {
 	local exttype_single
 	local exttype_plural
 
-	case $exttype_arg in
+	local exttype_arg_lo=`echo "$exttype_arg" | tr "[A-Z]" "[a-z]"`
+	case $exttype_arg_lo in
 		export | exports)
 			exttype="exports"
 			exttype_single="export"
@@ -484,15 +502,19 @@ dotf-setup() {
 			while true
 			do
 				echo "$path"
-				read -p "Would you like to enable the ${file_name%%.*} $exttype? [Y/N] " RESP
-				## read -p "Would you like to enable the ${file_name} $exttype? [Y/N] " RESP
-				case $RESP in
-					[yY])
+				read -p "Would you like to enable the ${file_name%%.*} $exttype? [y/n/q] " RESP
+				## read -p "Would you like to enable the ${file_name} $exttype? [Y/N/Q] " RESP
+				local RESP_lo=`echo "$RESP" | tr "[A-Z]" "[a-z]"`
+				case $RESP_lo in
+					y | yes)
 						ln -s "$path" "$ext_enabled_dir"
 						break
 						;;
-					[nN])
+					n | no)
 						break
+						;;
+					q | quit)
+						return
 						;;
 					*)
 						echo "Please choose y or n."
@@ -507,28 +529,32 @@ dotf-setup() {
 }
 
 
-dotf-setup-all() {
+df.setup.all() {
 	about 'interactivly sets up all extension types available'
-	example '$ dotprofile-setup'
-	group 'dotadmin'
+	example '$ df.setup.all'
+	group 'dotfiles'
 
 	for type in "exports" "aliases" "plugins" "completion"
 	do
 		while true
 		do
 			echo
-			read -p "Would you like to enable all, some, or no $type? Some of these may make bash slower to start up (especially completion). (all/some/none) " RESP
-			case $RESP in
-				some)
-					dotf-setup $type
+			read -p "Would you like to enable all, some, or no $type? Some of these may make bash slower to start up (especially completion). (all/some/none/quit) " RESP
+			local RESP_lo=`echo "$RESP" | tr "[A-Z]" "[a-z]"`
+			case $RESP_lo in
+				s | some)
+					df.setup $type
 					break
 					;;
-				all)
-					dotf-enable $type all
+				a | all)
+					df.enable $type all
 					break
 					;;
-				none)
+				n | none)
 					break
+					;;
+				q | quit)
+					return
 					;;
 				*)
 					echo "Unknown choice. Please enter some, all, or none"
@@ -540,16 +566,16 @@ dotf-setup-all() {
 }
 
 
-dotf-help-exts()
+df.help.exts()
 {
     about 'summarizes the available extensions of the given types and their status'
 	param '*: use "all" or a list of extension types - each must be one of: export or exports, alias or aliases, completion, plugin or plugins'
-	example '$ dotf-help-exts plugins aliases'
-	example '$ dotf-help-exts all'
-    group 'help'
+	example '$ df.help.exts plugins aliases'
+	example '$ df.help.exts all'
+	group 'dotfiles'
 
     if [ -z "$1" ]; then
-		reference dotf-help-exts
+		reference df.help.exts
 		return
 	fi
 
@@ -558,38 +584,78 @@ dotf-help-exts()
 	do
 		if [ "$type" = "all" ]
 		then
-			dotf-list-exts-all
+			df.listexts.all
 			break;
 		else
-			dotf-list-exts1 $type
+			df.listexts.1 $type
 		fi
 	done
 }
 
 
-dotf-help-aliasref-all()
+df.help.alias()
 {
-    about 'presents the alias definition scripts for all available alias sets'
-	example '$ dotf-help-aliasref-all'
-	group 'dotadmin'
-
-	dotf-list-exts1 "aliases" "cat"
+    about 'summarizes the available aliases and their status'
+	example '$ df.help.alias'
+	group 'dotfiles'
+	
+	df.help.exts alias
 }
 
 
-dotf-help-aliasref()
+df.help.plugin()
+{
+    about 'summarizes the available plugins and their status'
+	example '$ df.help.plugin'
+	group 'dotfiles'
+	
+	df.help.exts plugin
+}
+
+
+df.help.completion()
+{
+    about 'summarizes the available completions and their status'
+	example '$ df.help.completion'
+	group 'dotfiles'
+	
+	df.help.exts completion
+}
+
+
+df.help.aliasref.all()
+{
+    about 'presents the alias definition scripts for all available alias sets'
+	example '$ df.help.aliasref.all'
+	group 'dotfiles'
+
+	df.listexts.1 "alias" "cat"
+}
+
+
+df.help.pluginref.all()
+{
+    about 'presents the alias definition scripts for all available alias sets'
+	example '$ df.help.aliasref.all'
+	group 'dotfiles'
+
+	df.listexts.1 "plugin" "cat"
+}
+
+
+df.help.aliasref()
 {
     about 'presents the alias definition scripts for the given alias sets'
 	param '*: use "all" or a list of alias set names'
-	example '$ dotf-help-aliasref git vim'
-	example '$ dotf-help-aliasref all'
-    group 'help'
+	example '$ df.help.aliasref git vim'
+	example '$ df.help.aliasref all'
+	group 'dotfiles'
 
     if [ -z "$1" ]; then
-		reference dotf-help-aliasref
+		reference df.help.aliasref
 		echo
 		echo "Available alias sets..."
-		dotf-help-exts "alias"
+		df.help.exts "alias"
 		return
 	fi
 
@@ -598,19 +664,19 @@ dotf-help-aliasref()
 	do
 		if [ "$alfilter" = "all" ]
 		then
-			dotf-help-aliasref-all
+			df.help.aliasref.all
 			break;
 		else
-			dotf-list-exts1 "aliases" "cat" "$alfilter"
+			df.listexts.1 "aliases" "cat" "$alfilter"
 		fi
 	done
 }
 
 
-dotf-help-fgroups ()
+df.help.fgroups ()
 {
 	about 'displays all unique function groups'
-	group 'help'
+	group 'dotfiles'
 
 	local func
 	for func in $(typeset_functions); do typeset -f $func | metafor group ; done | sort | uniq
@@ -626,20 +692,20 @@ dotf-help-fgroups ()
 }
 
 
-dotf-help-funcs ()
+df.help.funcs ()
 {
 	about 'summarize all functions defined by currently active plugins'
 	param '*: use "all" or a function group - the available function groups will be displayed if you give no arguments'
-	example '$ dotf-help-funcs help'
-	example '$ dotf-help-funcs all'
-    group 'help'
+	example '$ df.help.funcs help'
+	example '$ df.help.funcs all'
+	group 'dotfiles'
 
     if [ -z "$1" ]; then
 		echo "!!!"
-		reference dotf-help-funcs
+		reference df.help.funcs
 		echo ""
 		echo "=== Available function groups: ==="
-		dotf-help-fgroups
+		df.help.fgroups
 		return
 	fi
 	
@@ -676,13 +742,12 @@ dotf-help-funcs ()
 }
 
 
-dotf-help ()
+df.help ()
 {
 	about 'summarize the available help functions'
-#	group 'lib'
-	group 'help'
+	group 'dotfiles'
 
-	dotf-help-funcs help
+	df.help.funcs dotfiles
 }
 
 
@@ -690,10 +755,29 @@ dotf-help ()
 
 #
 # Custom Help
-
 dotfiles() {
+	about 'summarize the available functions'
+	group 'dotfiles'
+
 	echo "Dotfiles baby!!!"
 	echo
-	dotf-help
+	df.help
+	echo
+	echo
+	df.listexts.all $1 $2
 }
+
+
+alias df.help.aliases=df.help.alias
+alias df.help.plugins=df.help.plugin
+alias df.help.completions=df.help.completion
+
+
+# top
+#   help extensions
+#   help dotfiles admin
+#   interactive setup
+#   setup
+
+
 
