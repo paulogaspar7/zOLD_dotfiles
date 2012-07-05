@@ -79,3 +79,7 @@ alias g0.fetch='g0.runall git fetch --tags'
 alias g1.fetch='g1.runall git fetch --tags'
 alias g2.fetch='g2.runall git fetch --tags'
 
+alias g0.pull='g0.runall git pull'
+alias g1.pull='g1.runall git pull'
+alias g2.pull='g2.runall git pull'
+
