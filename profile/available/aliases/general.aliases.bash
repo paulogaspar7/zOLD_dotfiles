@@ -33,12 +33,12 @@ alias fs="stat -c \"%s bytes\""
 
 
 ##### Easier navigation: .., ..., ...., ....., ~ and -
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ~="cd ~" # `cd` is probably faster to type though
-alias -- -="cd -"
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ~='cd ~' # `cd` is probably faster to type though
+alias -- -='cd -'
 
 # Shell History
 alias h='history'
@@ -55,7 +55,7 @@ fi
 
 # Directory
 alias	md='mkdir -p'
-alias	rd=rmdir
+alias	rd='rmdir'
 
 
 #### sudo related
@@ -63,7 +63,7 @@ alias	rd=rmdir
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
 
-alias _="sudo"
+alias _='sudo'
 
 
 ##### Misclleneous...
@@ -80,11 +80,11 @@ alias cls='clear'
 alias edit="$EDITOR"
 alias pager="$PAGER"
 
-alias q="exit"
+alias q='exit'
 
 alias irc="$IRC_CLIENT"
 
-alias rb="ruby"
+alias rb='ruby'
 
 # Pianobar can be found here: http://github.com/PromyLOPh/pianobar/
 # alias piano="pianobar"

@@ -7,18 +7,18 @@ about-alias 'OS X related aliases'
 ##### really usual commands
 alias subl='open -a "Sublime Text 2"'
 
-alias j="jobs"
-alias v="vim"
-alias m="mate ."
-alias s="subl ."
-alias o="open"
-alias oo="open ."
+alias j='jobs'
+alias v='vim'
+alias m='mate .'
+alias s='subl .'
+alias o='open'
+alias oo='open .'
 
 
 ##### OS X Specific hacking...
 
 # OS X has no `md5sum`, so use `md5` as a fallback
-type -t md5sum > /dev/null || alias md5sum="md5"
+type -t md5sum > /dev/null || alias md5sum='md5'
 
 
 ## QuickView??
@@ -51,13 +51,13 @@ alias emptylogs="sudo rm -rfv /private/var/log/asl/*.asl"
 alias cleanmacfiles="find . -type f -name '*.DS_Store' -ls -delete"
 
 # Flush Directory Service cache
-alias flushcache="dscacheutil -flushcache"
+alias flushcache='dscacheutil -flushcache'
 
 # Disable Spotlight
-alias spotoff="sudo mdutil -a -i off"
+alias spotoff='sudo mdutil -a -i off'
 
 # Enable Spotlight
-alias spoton="sudo mdutil -a -i on"
+alias spoton='sudo mdutil -a -i on'
 
 
 ##### Sound...
@@ -78,22 +78,22 @@ alias sound7="osascript -e 'set volume 7'"
 ##### Show and hide...
 
 # Show/hide hidden files in Finder
-alias showhf="defaults write com.apple.Finder AppleShowAllFiles -bool true && killall Finder"
-alias hidehf="defaults write com.apple.Finder AppleShowAllFiles -bool false && killall Finder"
+alias showhf='defaults write com.apple.Finder AppleShowAllFiles -bool true && killall Finder'
+alias hidehf='defaults write com.apple.Finder AppleShowAllFiles -bool false && killall Finder'
 
 # Hide/show all desktop icons (useful when presenting)
-alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
-alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+alias hidedesktop='defaults write com.apple.finder CreateDesktop -bool false && killall Finder'
+alias showdesktop='defaults write com.apple.finder CreateDesktop -bool true && killall Finder'
 
 
 ##### More defaults handling...
 
 # PlistBuddy alias, because sometimes `defaults` just doesn’t cut it
-alias plistbuddy="/usr/libexec/PlistBuddy"
+alias plistbuddy='/usr/libexec/PlistBuddy'
 
 
 ##### More navigation
-alias dropbox="cd ~/Documents/Dropbox"
+alias dropbox='cd ~/Documents/Dropbox'
 
 
 ##### Desktop Programs
@@ -101,6 +101,7 @@ alias dropbox="cd ~/Documents/Dropbox"
 # Core stuff
 alias preview="open -a '$PREVIEW'"
 alias f='open -a Finder '
+alias fh='open -a Finder .'
 
 # Adobe
 alias fireworks="open -a '/Applications/Adobe Fireworks CS3/Adobe Fireworks CS3.app'"
@@ -111,16 +112,21 @@ alias xcode="open -a '/Developer/Applications/Xcode.app'"
 alias filemerge="open -a '/Developer/Applications/Utilities/FileMerge.app'"
 
 # Browsers
-alias safari="open -a safari"
-alias firefox="open -a firefox"
+alias safari='open -a safari'
+alias firefox='open -a firefox'
 alias chrome="open -a google\ chrome"
-alias chromium="open -a chromium"
+alias chromium='open -a chromium'
 
 # Programming Editors / Viewers
-alias dashcode="open -a dashcode"
+alias dashcode='open -a dashcode'
 alias textedit='open -a TextEdit'
 alias hex='open -a "Hex Fiend"'
 
 if [ -s /usr/bin/firefox ] ; then
   unalias firefox
 fi
+
+
+# Requires growlnotify, which can be found in the Growl DMG under "Extras"
+alias grnot='growlnotify -s -t Terminal -m "Done"'
+

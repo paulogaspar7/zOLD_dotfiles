@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cite about-alias
-about-alias 'git related aliases'
+about-alias 'common git commands'
 
 # Aliases
 alias g='git'

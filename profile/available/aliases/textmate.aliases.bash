@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-cite about-alias
-about-alias 'TextMate related aliases'
-
+cite 'about-alias'
+about-alias 'textmate abbreviations'
 
 case $OSTYPE in
   darwin*)

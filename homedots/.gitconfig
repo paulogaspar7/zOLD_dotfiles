@@ -18,6 +18,7 @@
 	ca = !git add -A && git commit -av
 	cam = !git add -A && git commit -av -m
 	cm = git commit -av -m
+	amend = git commit --amend -m
 	# Switch to a branch, creating it if necessary
 	go = checkout -B
 	# Show verbose output about tags, branches or remotes

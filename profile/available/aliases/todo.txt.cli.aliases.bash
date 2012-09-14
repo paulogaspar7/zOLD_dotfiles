@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 cite about-alias
-about-alias 'TODO.txt client related aliases'
+about-alias 'todo.txt-cli abbreviations'
 
 
-alias t="$TODO"
+## alias t="$TODO"
 alias tls="$TODO ls"
 alias ta="$TODO a"
 alias trm="$TODO rm"

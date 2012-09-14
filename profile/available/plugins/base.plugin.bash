@@ -130,6 +130,8 @@ pass ()
 }
 
 
+if [ ! -e $DOTFILES_DIR/_ENABLED/profile/plugins/todo.plugin.bash ]; then
+# if user has installed todo plugin, skip this...
 t ()
 {
     about 'one thing todo'
@@ -142,7 +144,7 @@ t ()
 	    echo "$*" > ~/.t
 	fi
 }
-
+fi
 
 
 quiet ()

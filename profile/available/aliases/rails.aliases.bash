@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-cite about-alias
-about-alias 'Ruby on Rails related aliases'
-
+cite 'about-alias'
+about-alias 'rails abbreviations'
 
 # Rails Commands
 alias r='rails'

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-cite about-alias
-about-alias 'Heroku related aliases'
+cite 'about-alias'
+about-alias 'heroku task abbreviations'
 
 # heroku
 alias h='heroku'
@@ -34,4 +34,3 @@ alias hc='heroku config'
 alias hca='heroku config:add'
 alias hcr='heroku config:remove'
 alias hcc='heroku config:clear'
-
