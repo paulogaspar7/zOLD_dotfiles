@@ -1,8 +1,11 @@
 cite about-plugin
 about-plugin 'OS X specific functions'
 
-function tab() {
-  about 'opens a new terminal tab'
+
+function tab.run() {
+  about 'opens a new terminal tab and run given command'
+  param '1: command to run on new tab'
+  example '$ tab.run "echo H3llo W0rld!" 2d'
   group 'osx'
 
   osascript 2>/dev/null <<EOF
