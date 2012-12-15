@@ -262,6 +262,35 @@ function g1.runall() {
 }
 
 
+function g1.runall.repoarg() {
+	about 'runs the given command on all git repositories on 1st level subdirectories of current directory'
+	param '@: command to execute'
+	example '$ g1.runall git status'
+	group 'git'
+
+	if [ $# -eq 0 ]; then
+		echo "No command was given to execute!"
+		exit 1
+	fi
+
+	local CMD2CALL="$@"
+	#	echo "args = $CMD2CALL"
+	
+	local TOP_DIR=`pwd` # current working directory
+	local G_DIRS1="$( find $TOP_DIR -maxdepth 1 -mindepth 1 -type d )"
+	local D1
+	for D1 in  $G_DIRS1 ; do
+		if [ -e "$D1/.git" ]
+		then
+			cd $D1
+			DIR="${D1##*/}"
+			g.run "$CMD2CALL$DIR"
+		fi
+	done
+	cd $TOP_DIR
+}
+
+
 function g2.runall() {
 	about 'runs the given command on all git repositories down to the 2nd level subdirectories of current directory'
 	param '@: command to execute'
