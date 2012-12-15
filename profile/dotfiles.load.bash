@@ -155,7 +155,6 @@ then
 fi
 
 
-
 ############################################################
 ##### Source everything else...
 
@@ -181,6 +180,7 @@ source ${DOTFILES_PROFILE_DIR}/themes/colors.theme.bash
 source ${DOTFILES_PROFILE_DIR}/themes/base.theme.bash
 
 
+
 # libraries (core settings)
 _source_dir ${DOTFILES_PROFILE_DIR}/lib
 _try2source_dir "$DOTFILES_PRIVATE_DIR/profile/lib"
@@ -195,8 +195,10 @@ if [[ $PROMPT ]]; then
     export PS1=$PROMPT
 fi
 
+
 # Adding Support for other OSes
 PREVIEW="less"
 [ -s /usr/bin/gloobus-preview ] && PREVIEW="gloobus-preview"
 [ -s /Applications/Preview.app ] && PREVIEW="/Applications/Preview.app"
+
 

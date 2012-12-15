@@ -10,7 +10,6 @@ export LSCOLORS='Gxfxcxdxdxegedabagacad'
 # Load the theme
 function netf-load-theme ()
 {
-#	echo "===> Loading theme ${DOTFILES_THEME}..."
 	if [[ $DOTFILES_THEME ]]; then
 		local tf="$DOTFILES_LOCAL_DIR/profile/themes/$DOTFILES_THEME/$DOTFILES_THEME.theme.bash"
 		if [ -e "$tf" ] && [ -s "$tf" ]; then
