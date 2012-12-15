@@ -24,6 +24,17 @@ diskusage ()
 }
 
 
+ff ()
+{
+    about 'find a file on curren directory and its subdirectories'
+    param 'file to find'
+    example '$ ff foo'
+    group 'base'
+
+	find . -name "$@" -exec echo {} \;
+}
+
+
 mdcd ()
 {
     about 'make a directory and cd into it'
