@@ -28,6 +28,32 @@ AWK
 }
 
 
+function g.blamestats(){
+	about 'blamed line statistics per author'
+	group 'git'
+
+	git ls-tree -r HEAD|cut -f 2|while read filename; do file "$filename"; done|grep -E ': .*text'|cut -f 1 -d : |xargs -n1 git blame --line-porcelain|grep "^author\ "|sort|uniq -c|sort -nr
+
+	## git ls-tree -r HEAD|cut -f 2|grep -E '\.(java|jsp|xml|properties|wsdl|js|html|css|htm|txt)$' |xargs -n1 git blame --line-porcelain|grep "^author\ "|sort|uniq -c|sort -nr
+}
+
+
+function g.blamestats2(){
+	about 'blamed line statistics per author'
+	group 'git'
+
+	git ls-tree -r HEAD|cut -f 2|grep -E '\.(java|jsp|xml|properties|wsdl|js|html|css|htm|txt)$' |xargs -n1 git blame --line-porcelain|grep "^author\ "|sort|uniq -c|sort -nr
+}
+
+
+function g.blamestatsJavaXml(){
+	about 'blamed line statistics per author'
+	group 'git'
+
+	git ls-tree -r HEAD|cut -f 2|grep -E '\.(java|xml|properties)$' |xargs -n1 git blame --line-porcelain|grep "^author\ "|sort|uniq -c|sort -nr
+}
+
+
 ## TODO: check this one
 function g.export(){
 	about 'take this repo and copy it to somewhere else minus the .git stuff'
