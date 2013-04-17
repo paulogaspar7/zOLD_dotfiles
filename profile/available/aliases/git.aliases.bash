@@ -86,8 +86,3 @@ alias g2.pull='g2.runall git pull'
 alias g0.blamestats='g0.runall g.blamestats'
 alias g1.blamestats='g1.runall g.blamestats'
 alias g2.blamestats='g2.runall g.blamestats'
-
-alias g0.blamestatsJavaXml='g0.runall g.blamestatsJavaXml'
-alias g1.blamestatsJavaXml='g1.runall g.blamestatsJavaXml'
-alias g2.blamestatsJavaXml='g2.runall g.blamestatsJavaXml'
-
