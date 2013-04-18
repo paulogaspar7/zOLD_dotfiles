@@ -28,6 +28,22 @@ AWK
 }
 
 
+function g.emptyfill() {
+	about 'Add an empty .gitempty file to all empty sub directories'
+	group 'git'
+
+	find . -type d -empty -exec touch {}/.gitempty \;
+}
+
+
+function g.emptyclean() {
+	about 'Remove .gitempty file to all empty sub directories'
+	group 'git'
+
+	find . -type f -empty -name '.gitempty' -ls -delete
+}
+
+
 function g.blamestats(){
 	about 'blamed line statistics per author'
 	group 'git'
