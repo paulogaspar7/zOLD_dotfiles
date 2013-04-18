@@ -31,6 +31,11 @@ type -t md5sum > /dev/null || alias md5sum='md5'
 alias c2clip="tr -d '\n' | pbcopy"
 
 
+##### Battery...
+alias battery.summary='ioreg -n AppleSmartBattery -r'
+alias battery.cycles='ioreg -n AppleSmartBattery -r|grep -i  CycleCount\" --color=never'
+
+
 ##### Maintenance, maintenance...
 # Get OS X Software Updates
 alias update='sudo softwareupdate -i -a'
