@@ -180,6 +180,7 @@ source ${DOTFILES_PROFILE_DIR}/themes/colors.theme.bash
 source ${DOTFILES_PROFILE_DIR}/themes/base.theme.bash
 
 
+# echo "Loading libraries (core settings)..."
 
 # libraries (core settings)
 _source_dir ${DOTFILES_PROFILE_DIR}/lib
@@ -187,18 +188,21 @@ _try2source_dir "$DOTFILES_PRIVATE_DIR/profile/lib"
 _try2source_dir "$DOTFILES_LOCAL_DIR/profile/lib"
 
 
+# echo "Loading all enabled extensions..."
 # Load all enabled extensions
 df.load.all
 
 
+# echo "Setting PS1 to PROMPT..."
 if [[ $PROMPT ]]; then
     export PS1=$PROMPT
 fi
 
 
+# echo "Setting preview..."
 # Adding Support for other OSes
 PREVIEW="less"
 [ -s /usr/bin/gloobus-preview ] && PREVIEW="gloobus-preview"
 [ -s /Applications/Preview.app ] && PREVIEW="/Applications/Preview.app"
 
-
+# echo "...done with dotfiles.load.bash!!!"
