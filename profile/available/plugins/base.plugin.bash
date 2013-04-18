@@ -2,8 +2,7 @@ cite about-plugin
 about-plugin 'miscellaneous tools'
 
 
-diskusage ()
-{
+diskusage () {
     about 'disk usage per directory, in Mac OS X and Linux'
     param '1: directory name'
     group 'base'
@@ -24,40 +23,53 @@ diskusage ()
 }
 
 
-ff ()
-{
+ff () {
     about 'find a file on curren directory and its subdirectories'
     param 'file to find'
     example '$ ff foo'
     group 'base'
 
-	find . -name "$@" -exec echo {} \;
+	find . -name "$@"
 }
 
 
-mdcd ()
-{
+# cd into whatever is the forefront Finder window.
+cdf() {  # short for cdfinder
+	cd "`osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)'`"
+}
+
+
+oo2() {
+	osascript -e 'on run pwd
+	set f to posix file pwd
+	tell app "Finder"
+	if number of Finder windows is 0 then
+		open f
+	else
+		set target of window 1 to f
+		end
+		end
+	end' "$PWD" > /dev/null
+}
+
+
+mdcd () {
     about 'make a directory and cd into it'
     param 'path to create'
     example '$ mdcd foo'
     example '$ mdcd /tmp/img/photos/large'
     group 'base'
 	mkdir -p "$@" && cd "$@"
-
-##	mkdir -p "$*"
-## 	cd "$*"
 }
 
-lsgrep ()
-{
+lsgrep () {
     about 'search through directory contents with grep'
     group 'base'
     ls | grep "$*"
 }
 
 
-pman ()
-{
+pman () {
     about 'view man documentation in Preview'
     param '1: man page to view'
     example '$ pman bash'
@@ -66,8 +78,7 @@ pman ()
 }
 
 
-command_exists ()
-{
+command_exists () {
     about 'checks for existence of a command'
     param '1: command to check'
     example '$ command_exists ls && echo exists'
@@ -77,8 +88,7 @@ command_exists ()
 
 
 # useful for administrators and configs
-backwts ()
-{
+backwts () {
     about 'back up file with timestamp'
     param 'filename'
     group 'base'
@@ -88,8 +98,7 @@ backwts ()
 }
 
 
-pcurl ()
-{
+pcurl () {
     about 'download file and Preview it'
     param '1: download URL'
     example '$ pcurl http://www.irs.gov/pub/irs-pdf/fw4.pdf'
@@ -98,8 +107,7 @@ pcurl ()
 }
 
 
-pmdown ()
-{
+pmdown () {
     about 'preview markdown file in a browser'
     param '1: markdown file'
     example '$ pmdown README.md'
@@ -113,8 +121,7 @@ pmdown ()
 }
 
 
-pickfrom ()
-{
+pickfrom () {
     about 'picks random line from file'
     param '1: filename'
     example '$ pickfrom /usr/share/dict/words'
@@ -126,8 +133,7 @@ pickfrom ()
     head -n $n $file | tail -1
 }
 
-pass ()
-{
+pass () {
     about 'generates random password from dictionary words'
     param 'optional integer length'
     param 'if unset, defaults to 4'
@@ -143,8 +149,7 @@ pass ()
 
 if [ ! -e $DOTFILES_DIR/_ENABLED/profile/plugins/todo.plugin.bash ]; then
 # if user has installed todo plugin, skip this...
-t ()
-{
+t () {
     about 'one thing todo'
     param 'if not set, display todo item'
     param '1: todo text'
@@ -158,8 +163,7 @@ t ()
 fi
 
 
-quiet ()
-{
+quiet () {
     about 'what -does- this do?'
     group 'base'
 	$* &> /dev/null &
