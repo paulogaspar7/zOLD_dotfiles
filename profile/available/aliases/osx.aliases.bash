@@ -15,6 +15,11 @@ alias o='open'
 alias oo='open .'
 
 
+alias apache.start='sudo apachectl start'
+alias apache.stop='sudo apachectl stop'
+
+
+
 ##### OS X Specific hacking...
 
 # OS X has no `md5sum`, so use `md5` as a fallback

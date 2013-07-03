@@ -304,6 +304,35 @@ function g1.runall() {
 }
 
 
+function g1.camall() {
+	about 'runs the git cam command on all git repositories on 1st level subdirectories of current directory'
+	param '@: command to execute'
+	example '$ g1.runall "Some commit message."'
+	group 'git'
+
+	if [ $# -eq 0 ]; then
+		echo "No message was given to commit!"
+		exit 1
+	fi
+
+	local COMMIT_MSG="$@"
+	#	echo "args = $COMMIT_MSG"
+	
+	local TOP_DIR=`pwd` # current working directory
+	local G_DIRS1="$( find $TOP_DIR -maxdepth 1 -mindepth 1 -type d )"
+	local D1
+	for D1 in  $G_DIRS1 ; do
+		if [ -e "$D1/.git" ]
+		then
+			cd $D1
+			echo "git cam @ $D1..."
+			git cam "\"$COMMIT_MSG\""
+		fi
+	done
+	cd $TOP_DIR
+}
+
+
 function g1.runall.repoarg() {
 	about 'runs the given command on all git repositories on 1st level subdirectories of current directory'
 	param '@: command to execute'
@@ -348,7 +377,7 @@ function g2.runall() {
 #	echo "args = $CMD2CALL"
 	
 	local TOP_DIR=`pwd` # current working directory
-	local G_DIRS1="$( find $TOP_DIR -maxdepth 1 -mindepth 1 -type d )"
+	local G_DIRS1="$( find $TOP_DIR -maxdepth 2 -mindepth 1 -type d )"
 	local D1
 	for D1 in  $G_DIRS1 ; do
 		if [ -e "$D1/.git" ]
