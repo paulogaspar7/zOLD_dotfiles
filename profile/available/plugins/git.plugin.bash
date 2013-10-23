@@ -307,7 +307,7 @@ function g1.runall() {
 function g1.camall() {
 	about 'runs the git cam command on all git repositories on 1st level subdirectories of current directory'
 	param '@: command to execute'
-	example '$ g1.runall "Some commit message."'
+	example '$ g1.camall "Some commit message."'
 	group 'git'
 
 	if [ $# -eq 0 ]; then

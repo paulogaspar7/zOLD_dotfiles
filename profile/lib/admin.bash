@@ -102,13 +102,13 @@ df.load() {
 }
 
 
-df.load.all() {
+df.load.allButExports() {
 	about '(re)loads all enabled extensions of all types'
 	example '$ df.load.all'
 	group 'dotfiles'
 
 	local type
-	for type in "exports" "aliases" "plugins" "completion"
+	for type in "aliases" "plugins" "completion"
 	do
 		df.load $type
 	done

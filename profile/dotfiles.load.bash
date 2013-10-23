@@ -190,7 +190,7 @@ _try2source_dir "$DOTFILES_LOCAL_DIR/profile/lib"
 
 # echo "Loading all enabled extensions..."
 # Load all enabled extensions
-df.load.all
+df.load.allButExports
 
 
 # echo "Setting PS1 to PROMPT..."
