@@ -35,6 +35,7 @@ type -t md5sum > /dev/null || alias md5sum='md5'
 # Trim new lines and copy to clipboard
 alias c2clip="tr -d '\n' | pbcopy"
 
+alias plaincopy="pbpaste -Prefer txt | pbcopy; pbpaste; echo"
 
 ##### Battery...
 alias battery.summary='ioreg -n AppleSmartBattery -r'

@@ -38,3 +38,12 @@ alias c='pygmentize -O style=borland -f console256 -g'
 # Just for fun...
 alias hax="growlnotify -a 'Activity Monitor' 'System error' -m 'WTF R U DOIN'"
 
+alias search.ag=ag
+alias search.ack=ack
+alias search.ff=ff
+
+alias run.tab=tab.run
+
+alias curl.preview=prevcurl
+
+

@@ -22,7 +22,7 @@ EOF
 
 # this one switches your os x dock between 2d and 3d
 # thanks to savier.zwetschge.org
-function dock-switch() {
+function dock.switch() {
     about 'switch dock between 2d and 3d'
     param '1: "2d" or "3d"'
     example '$ dock-switch 2d'
