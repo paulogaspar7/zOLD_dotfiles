@@ -47,6 +47,14 @@ complete -o default -o nospace -F _git g
 
 # alias g.trackallb='g.trackallbranches'
 
+alias g0.cohead=g0.runall g.cohead
+alias g1.cohead=g1.runall g.cohead
+alias g2.cohead=g2.runall g.cohead
+
+alias g0.trackallb='g0.runall g.trackallbranches'
+alias g1.trackallb='g1.runall g.trackallbranches'
+alias g2.trackallb='g2.runall g.trackallbranches'
+
 alias g0.trackallb='g0.runall g.trackallbranches'
 alias g1.trackallb='g1.runall g.trackallbranches'
 alias g2.trackallb='g2.runall g.trackallbranches'

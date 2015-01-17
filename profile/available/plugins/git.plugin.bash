@@ -208,6 +208,60 @@ function g.stats {
 }
 
 
+function g.cohead() {
+	about 'Checks out all files from HEAD at local directory'
+	example '$ g.cohead'
+	group 'git'
+
+	echo "Checking out all files from HEAD..."
+
+	echo "git config --local --bool core.bare false"
+	git config --local --bool core.bare false
+
+	echo "git checkout HEAD -- ."
+	git checkout HEAD -- .
+	echo ""
+}
+
+
+function g.gobare() {
+	about 'Makes current git directory bare'
+	example '$ g.gobare'
+	group 'git'
+
+	local THIS_DIR=`pwd` # current working directory
+
+	if [ -e "${THIS_DIR}/.git" ]
+	then
+		echo "GO BARE!"
+		local G_DIRS1="$( find $THIS_DIR -maxdepth 1 -mindepth 1 -type d )"
+		local D1
+		for D1 in  $G_DIRS1 ; do
+			local B=`basename $D1`
+			if [ "$B" == '.git' ]
+			then
+				echo "This is the .git dir: $D1 ..."
+			else
+				echo "Removing $D1 ..."
+				echo "rm -rf $D1"
+				rm -rf $D1
+			fi
+		done
+		local G_FILES1="$( find $THIS_DIR -maxdepth 1 -mindepth 1 -type f )"
+		local F1
+		for F1 in  $G_FILES1 ; do
+			echo "Removing $F1 ..."
+			echo "rm $F1"
+			rm $F1
+		done
+		echo "git config --local --bool core.bare true"
+		git config --local --bool core.bare true
+	else
+		echo "Directory $THIS_DIR is NOT a Git workspce"
+	fi
+}
+
+
 function g.trackallbranches() {
 	about 'tracks all branches on remote $1'
 	param '1: remote name'

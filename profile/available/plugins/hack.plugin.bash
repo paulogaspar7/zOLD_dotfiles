@@ -33,6 +33,31 @@ function server() {
 }
 
 
+function zip.dirs() {
+	about 'Zips each subdirectory...'
+	example '$ zip.dirs'
+	group 'hack'
+
+	local THIS_DIR=`pwd` # current working directory
+
+	echo "Zip Dirs..."
+	local G_DIRS1="$( find $THIS_DIR -maxdepth 1 -mindepth 1 -type d )"
+	local D1
+	for D1 in  $G_DIRS1 ; do
+		local B=`basename $D1`
+		local Z="${B}.zip"
+		if [ -e "${THIS_DIR}/${Z}" ]
+		then
+			echo "zi.dirs operation interrupted: file ${THIS_DIR}/${Z} already exists!"
+		else
+			echo "Ziping $D1 ..."
+			echo "zip -r $Z $B"
+			zip -r $Z $B
+		fi
+	done
+}
+
+
 function gz() {
 	about 'Returns the given file gzipped size'
 	param '1: file name'
