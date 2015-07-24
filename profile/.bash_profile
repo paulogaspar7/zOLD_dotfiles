@@ -10,9 +10,9 @@ export DOTFILES_DIR="$HOME/dotfiles"
 export DOTFILES_LOCAL_DIR="$HOME/dotfiles_local"
 export DOTFILES_PRIVATE_DIR="$HOME/dotfiles_private"
 
-
+echo "== in =="
 source $DOTFILES_DIR/profile/dotfiles.load.bash
-
+echo "== out =="
 
 # colors
 export CLICOLOR=1

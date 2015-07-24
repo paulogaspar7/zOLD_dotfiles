@@ -224,6 +224,16 @@ function g.cohead() {
 }
 
 
+function g.wipeignored() {
+	git clean -fdx
+}
+
+
+function g.dryrun.wipeignored() {
+	git clean -fdxn
+}
+
+
 function g.gobare() {
 	about 'Makes current git directory bare'
 	example '$ g.gobare'

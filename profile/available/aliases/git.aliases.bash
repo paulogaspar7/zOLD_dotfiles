@@ -47,9 +47,17 @@ complete -o default -o nospace -F _git g
 
 # alias g.trackallb='g.trackallbranches'
 
-alias g0.cohead=g0.runall g.cohead
-alias g1.cohead=g1.runall g.cohead
-alias g2.cohead=g2.runall g.cohead
+alias g0.wipeignored='g0.runall git clean -fdx'
+alias g1.wipeignored='g1.runall git clean -fdx'
+alias g2.wipeignored='g2.runall git clean -fdx'
+
+alias g0.wipeignored.dryrun='g0.runall git clean -fdxn'
+alias g1.wipeignored.dryrun='g1.runall git clean -fdxn'
+alias g2.wipeignored.dryrun='g2.runall git clean -fdxn'
+
+alias g0.cohead='g0.runall g.cohead'
+alias g1.cohead='g1.runall g.cohead'
+alias g2.cohead='g2.runall g.cohead'
 
 alias g0.trackallb='g0.runall g.trackallbranches'
 alias g1.trackallb='g1.runall g.trackallbranches'

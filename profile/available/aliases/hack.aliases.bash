@@ -3,6 +3,7 @@
 cite about-alias
 about-alias 'Hacking / programming related aliases'
 
+rcopy="rsync -azvhiNAXES --fileflags --progress --exclude=\.DS_Store --exclude=\.Trashes --exclude=\.Spotlight-V100"
 
 # ROT13-encode text. Works for decoding, too! ;)
 alias rot13='tr a-zA-Z n-za-mN-ZA-M'

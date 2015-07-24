@@ -48,12 +48,34 @@ function zip.dirs() {
 		local Z="${B}.zip"
 		if [ -e "${THIS_DIR}/${Z}" ]
 		then
-			echo "zi.dirs operation interrupted: file ${THIS_DIR}/${Z} already exists!"
+			echo "zip.dirs operation interrupted: file ${THIS_DIR}/${Z} already exists!"
 		else
 			echo "Ziping $D1 ..."
 			echo "zip -r $Z $B"
 			zip -r $Z $B
 		fi
+	done
+}
+
+
+function unzip.all() {
+	about 'Zips each subdirectory...'
+	example '$ zip.dirs'
+	group 'hack'
+
+	local THIS_DIR=`pwd` # current working directory
+
+	echo "Zip Dirs..."
+	local G_ZIPS1="$( find $THIS_DIR -name '*.zip' -maxdepth 1 -mindepth 1 -type f )"
+	local Z1
+	for Z1 in  $G_ZIPS1 ; do
+		local B=`basename $Z1`
+##             local Z="${B}.zip"
+		echo "UnZiping $Z1 ..."
+		echo "unzip $Z1"
+		unzip $Z1
+		echo ""
+		echo ""
 	done
 }
 
