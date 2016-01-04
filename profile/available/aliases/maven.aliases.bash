@@ -19,6 +19,7 @@ alias mvneclipse='mvn -DdownloadJavadocs=true -DdownloadSources=true eclipse:cle
 alias mvni='mvn install'
 alias mvnci='mvn clean install'
 alias mvnbuild='mvn clean install'
+alias mvnbuild.insec='mvn -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true clean install'
 
 alias mvnisj='mvn install -Dmaven.test.skip=true -Dfindbugs.skip=true source:jar javadoc:jar'
 alias mvncisj='mvn clean install -Dmaven.test.skip=true -Dfindbugs.skip=true source:jar javadoc:jar'
