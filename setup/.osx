@@ -2,6 +2,10 @@
 
 # ~/.osx — http://mths.be/osx
 
+
+## By Paulo, show all files in Finder:
+defaults write com.apple.finder AppleShowAllFiles YES
+
 ###############################################################################
 # General UI/UX                                                               #
 ###############################################################################
