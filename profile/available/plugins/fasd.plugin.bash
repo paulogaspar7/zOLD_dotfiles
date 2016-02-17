@@ -615,7 +615,9 @@ fasd --init env
 case $- in
   *i*) cite about-plugin
        about-plugin 'navigate "frecently" used files and directories'
-       eval "$(fasd --init auto)"
+       ## eval "$(fasd --init auto)"
+       ## Since the above now blocks on OS X...
+       eval "$(fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install)"
       ;;
   *) # assume being executed as an executable
     if [ -x "$_FASD_SHELL" -a -z "$_FASD_SET" ]; then
