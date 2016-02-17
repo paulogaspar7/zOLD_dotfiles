@@ -1,6 +1,15 @@
 cite about-plugin
 about-plugin 'OS X specific functions'
 
+function brew.fix() {
+  about 'Usual Homebrew fix'
+  param '1: apply usual fix to Homebrew directories'
+  example '$ brew.fix'
+  group 'osx'
+
+  sudo chown -R $(whoami) /usr/local/bin
+  sudo chown -R $(whoami) /usr/local/share
+}
 
 function tab.run() {
   about 'opens a new terminal tab and run given command'
